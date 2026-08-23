@@ -1,0 +1,1 @@
+print("Inverted index module")
