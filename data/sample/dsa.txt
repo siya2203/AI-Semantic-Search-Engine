@@ -1,0 +1,6 @@
+Data structures organize and store data efficiently.
+Arrays store elements in contiguous memory.
+Hash tables provide fast key value lookup.
+Trees are hierarchical data structures.
+Graphs represent relationships between objects.
+Breadth first search and depth first search are graph algorithms.

@@ -1,0 +1,5 @@
+Natural language processing is a field of artificial intelligence.
+NLP allows computers to understand human language.
+Tokenization divides text into smaller units called tokens.
+Word embeddings represent words as numerical vectors.
+Semantic search understands the meaning of a query.
