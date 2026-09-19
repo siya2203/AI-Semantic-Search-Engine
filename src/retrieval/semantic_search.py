@@ -7,14 +7,14 @@ class SemanticSearch:
     def __init__(self):
         self.embedding_model = EmbeddingModel()
         self.documents = {}
-        self.documents_embeddings = None
+        self.document_embeddings = None
 
     def fit(self, documents):
 
         self.documents = documents
 
         self.document_embeddings = (
-            self.embedding_mode.encode_documents(documents)
+            self.embedding_model.encode_documents(documents)
         )
 
     def search(self, query, top_k = 5):

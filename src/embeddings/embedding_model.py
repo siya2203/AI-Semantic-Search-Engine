@@ -7,9 +7,9 @@ class EmbeddingModel:
     def __init__(self, model_name="all-MiniLM-L6-v2"):
         self.model = SentenceTransformer(model_name)
 
-    def encode(self, text):
+    def encode(self, texts):
         """Generate an embedding for a single text."""
-        return self.model.encode(text)
+        return self.model.encode(texts)
 
     def encode_documents(self, documents):
         """Generate embeddings for all documents."""

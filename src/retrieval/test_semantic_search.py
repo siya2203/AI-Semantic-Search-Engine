@@ -11,6 +11,10 @@ search_engine.fit(documents)
 
 query = input("\nSemantic Search Results:")
 
+results = search_engine.search(query)
+
+print("\nSemantic Search Results: ")
+
 for result in results:
 
     print(
