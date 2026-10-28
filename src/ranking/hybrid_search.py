@@ -30,10 +30,17 @@ class HybridSearch:
         max_score = values.max()
 
         if max_score == min_score:
-            return {doc: 0.0 for doc in scores}
+            return {
+                doc:(score / max_score if max_score > 0 else 0.0)
+                for doc, score in scores.items()
+            }
 
         return {
-            doc: (score - min_score) / (max_score - min_score)
+            doc: (
+                (score - min_score) / (max_score - min_score)
+                if score > 0
+                else 0.0
+            )
             for doc, score in scores.items()
         }
 
