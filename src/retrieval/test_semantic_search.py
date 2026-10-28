@@ -9,7 +9,7 @@ print("Creating document embeddings...")
 
 search_engine.fit(documents)
 
-query = input("\nSemantic Search Results:")
+query = input("\nEnter your search query:")
 
 results = search_engine.search(query)
 
