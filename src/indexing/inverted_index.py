@@ -1,7 +1,7 @@
 from src.preprocessing.text_processor import TextProcessor
 import re                 # Regular Expression module(Regex) -> we use it here to find words inside the text
 from pathlib import Path  # Path makes it easier to work with files and folders -> We'll use it to find all .txt files inside our data folder
-
+from pypdf import PdfReader
 class InvertedIndex:      
     def __init__(self):
         self.index = {}
@@ -38,10 +38,33 @@ class InvertedIndex:
 def load_documents(data_path):
     documents = {}
 
-    for file in Path(data_path).glob("*.txt"):
-        documents[file.name] = file.read_text(encoding="utf-8")
+    supported_extensions = {".pdf", ".txt"}
 
-    return documents 
+    for file in Path(data_path).iterdir():
+
+        if file.is_file() and file.suffix.lower() in supported_extensions:
+
+            try:
+                if file.suffix.lower() == ".txt":
+                    text = file.read_text(encoding = "utf-8")
+
+                elif file.suffix.lower() ==".pdf":
+                    reader = PdfReader(str(file))
+
+                    text = "\n".join(
+                        page.extract_text() or ""
+                        for page in reader.pages
+                    ) 
+
+                if text.strip():
+                    documents[file.name] = text
+                else:
+                    print(f"Warning: No extractable text in {file.name}")
+
+            except Exception as e:
+                print(f"Could not read {file.name}: {e}")
+
+    return documents
 
 if __name__=="__main__":
 
@@ -54,22 +77,33 @@ if __name__=="__main__":
     for doc_id, text in documents.items():
         index.add_document(doc_id, text)
 
-    print("\nDocuments:")
+    print("\nDocuments Loaded:")
     for doc in documents:
         print("-", doc)
 
-    print("\nSearch Results:")
+    print("\n========== DOCUMENT SEARCH ENGINE ==========")
+    print("Type 'exit' to stop searching.")
+
+    while True:
 
     # query = input("\nEnter a word to search: ") # for single word
-    query = input("\nEnter your search query: ")
+        query = input("\nEnter your search query: ").strip()
 
-    results = index.search(query)
+        if query.lower() == "exit":
+            print("Search engine stopped.")
+            break
 
-    if results:
-        print("\nFound in:")
-        for document in results:
-            print("-", document)
-    else:
-        print("\nNo documents found.")
+        if not query:
+            print("Please enter a valid search query.")
+            continue
+
+        results = index.search(query)
+
+        if results:
+            print("\nFound in:")
+            for document in results:
+                print("-", document)
+        else:
+            print("\nNo documents found.")
 
         
