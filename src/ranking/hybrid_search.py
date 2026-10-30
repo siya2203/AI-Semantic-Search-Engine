@@ -20,29 +20,29 @@ class HybridSearch:
         self.tfidf_ranker.fit(documents)
         self.semantic_search.fit(documents)
 
-    def _normalize_scores(self, scores):
-        values = np.array(list(scores.values()), dtype = float)
+    # def _normalize_scores(self, scores):
+    #     values = np.array(list(scores.values()), dtype = float)
 
-        if len(values) == 0:
-            return {}
+    #     if len(values) == 0:
+    #         return {}
 
-        min_score = values.min()
-        max_score = values.max()
+    #     min_score = values.min()
+    #     max_score = values.max()
 
-        if max_score == min_score:
-            return {
-                doc:(score / max_score if max_score > 0 else 0.0)
-                for doc, score in scores.items()
-            }
+    #     if max_score == min_score:
+    #         return {
+    #             doc:(score / max_score if max_score > 0 else 0.0)
+    #             for doc, score in scores.items()
+    #         }
 
-        return {
-            doc: (
-                (score - min_score) / (max_score - min_score)
-                if score > 0
-                else 0.0
-            )
-            for doc, score in scores.items()
-        }
+    #     return {
+    #         doc: (
+    #             (score - min_score) / (max_score - min_score)
+    #             if score > 0
+    #             else 0.0
+    #         )
+    #         for doc, score in scores.items()
+    #     }
 
     def search(self, query, top_k = 5):
         if not self.documents or not query.strip():
@@ -69,9 +69,9 @@ class HybridSearch:
             for result in semantic_results
         }
 
-        # Normalize scores before combining them
-        tfidf_scores = self._normalize_scores(tfidf_scores)
-        semantic_scores = self._normalize_scores(semantic_scores)
+        # # Normalize scores before combining them
+        # tfidf_scores = self._normalize_scores(tfidf_scores)
+        # semantic_scores = self._normalize_scores(semantic_scores)
 
         # Combine keywords and semantic relevance
         results = []

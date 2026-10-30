@@ -1,8 +1,11 @@
 from src.indexing.inverted_index import load_documents
 from src.ranking.hybrid_search import HybridSearch
 
-# Load the existing sample documents
-documents = load_documents("data/sample")
+# Load both sample and uploaded documents
+documents = {}
+
+documents.update(load_documents("data/sample"))
+documents.update(load_documents("data/uploads"))
 
 # Create and prepare the hybrid search engine 
 search_engine = HybridSearch(alpha = 0.5)
