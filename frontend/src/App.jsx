@@ -8,6 +8,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState("");
 
   async function handleSearch(event) {
     event.preventDefault();
@@ -47,6 +50,42 @@ function App() {
       );
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleUpload(event){
+    event.preventDefault();
+
+    if(!selectedFile){
+      setUploadMessage("Please select a file first.");
+      return;
+    }
+
+    setUploading(true);
+    setUploadMessage("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const response = await fetch("http://127.0.0.1:8000/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if(!response.ok) {
+        throw new Error(data.detail || "Upload failed.");
+      }
+
+      setUploadMessage(`Successfully uploaded: ${selectedFile.name}`);
+      setSelectedFile(null);
+      event.target.reset();
+    } catch (err) {
+      setUploadMessage(err.message || "Could not upload the file.");
+    } finally {
+      setUploading(false);
     }
   }
 
@@ -94,6 +133,43 @@ function App() {
           <span>·</span>
           <button onClick={() => setQuery("natural language processing")}>natural language processing</button>
         </p>
+      </section>
+
+      <section className = "upload-section">
+        <div className = "upload-heading">
+          <div>
+            <p className = "eyebrow">EXPAND YOUR SEARCH</p>
+            <h2>Upload your documents</h2>
+            <p>Bring your own knowledge into the search engine.</p>
+          </div>
+        </div>
+
+        <form className = "upload-form" onSubmit={handleUpload}>
+          <input
+            type = "file"
+            accept = ".txt, .pdf"
+            onChange = {(event)=> {
+              setSelectedFile(event.target.files[0] || null);
+              setUploadMessage("");
+            }}
+          />
+
+          <button type = "submit" disabled={uploading}>
+            {uploading ? "Uploading..." : "Upload document"}
+          </button>
+        </form>
+
+        {selectedFile && (
+            <p className = "upload-info">
+              Selected: {selectedFile.name}
+            </p>
+        )}
+
+        {uploadMessage && (
+          <p className = "upload-message">
+            {uploadMessage}
+          </p>
+        )}
       </section>
 
       <section className="results-section">

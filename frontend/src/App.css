@@ -409,3 +409,47 @@ footer {
     flex-direction: column;
   }
 }
+
+.upload-section {
+  max-width: 850px;
+  margin: 0 auto 55px;
+  padding: 28px;
+  background: white;
+  border: 1px solid #e8e5f0;
+  border-radius: 18px;
+}
+
+.upload-heading h2 {
+  margin: 8px 0;
+  font-size: 24px;
+}
+
+.upload-heading p:not(.eyebrow){
+  color: #77748a;
+}
+
+.upload-form input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.upload-form button {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 9px;
+  background: #7055d9;
+  color: white;
+  cursor: pointer;
+}
+
+.upload-form button:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upload-info,
+.upload-message {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #6252b5;
+}
