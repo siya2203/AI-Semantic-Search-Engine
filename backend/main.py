@@ -57,8 +57,29 @@ def health_check():
 
 @app.get("/documents")
 def list_documents():
-    engine = get_search_engine()
-    return {"documents": list(engine.documents.keys())}
+    upload_path = PROJECT_ROOT / "data" / "uploads"
+    upload_path.mkdir(parents = True, exist_ok = True)
+
+    documents = []
+
+    for file_path in upload_path.iterdir():
+        if file_path.is_file() and file_path.suffix.lower() in {".txt", ".pdf"}:
+            stored_name = file_path.name
+
+            # Extract original filename from UUID-prefixed filenames
+            if len(stored_name) > 33 and stored_name[32] == "_":
+                original_name = stored_name[33:]
+            else:
+                original_name = stored_name
+
+            documents.append({
+                "id": stored_name,
+                "name": original_name,
+                "file_type": file_path.suffix.lower().replace(".", "").upper(),
+                "size": file_path.stat().st_size
+            })
+
+    return {"documents": documents}
 
 @app.post("/upload")
 async def upload_documents(file: UploadFile = File(...)):
@@ -95,7 +116,8 @@ async def upload_documents(file: UploadFile = File(...)):
             detail = "File size must not exceed 10 MB."
         )
 
-    filename = f"{uuid4().hex}{extension}"
+    original_name = Path(file.filename.replace("\\", "/")).name
+    filename = f"{uuid4().hex}_{original_name}"
     file_path = upload_path / filename
 
     file_path.write_bytes(content)
@@ -106,6 +128,31 @@ async def upload_documents(file: UploadFile = File(...)):
         "message": "Document uploaded successfully.",
         "filename": filename,
         "size": len(content),
+    }
+
+@app.delete("/documents/{document_id}")
+def delete_document(document_id: str):
+    upload_path = PROJECT_ROOT / "data" / "uploads"
+
+    # Find the requested uploaded document
+    file_path = upload_path / document_id
+
+    # Ensure the file exists and is inside uploads
+    if not file_path.is_file() or file_path.parent != upload_path:
+        raise HTTPException(
+            status_code = 404,
+            detail = "Uploaded document not found."
+        )
+
+    # Delete only the selected document
+    file_path.unlink()
+
+    # Rebuild the search engine on the next search request
+    get_search_engine.cache_clear()
+
+    return {
+        "message": "Document deleted successfully.",
+        "deleted_document": document_id
     }
 
 @app.post("/search")
