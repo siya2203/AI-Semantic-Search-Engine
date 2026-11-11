@@ -5,3 +5,6 @@ __pycache__/
 .ipynb_checkpoints/
 data/raw/
 data/processed/
+# Downloaded datasets
+data/dataset/
+data/evaluation/
