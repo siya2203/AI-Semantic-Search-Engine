@@ -5,20 +5,34 @@ documents = load_documents("data/sample")
 
 search_engine = SemanticSearch()
 
-print("Creating document embeddings...")
-
+print("\nCreating document embeddings...")
 search_engine.fit(documents)
 
-query = input("\nEnter your search query:")
+print("\nSemantic Search Engine is ready!")
+print("Enter 'exit' to stop searching.\n")
 
-results = search_engine.search(query)
+while True:
+    query = input("Enter your search query: ").strip()
 
-print("\nSemantic Search Results: ")
+    if query.lower() == "exit":
+        print("Exiting Semantic Search Engine...")
+        break
 
-for result in results:
+    if not query:
+        print("Please enter a valid query.\n")
+        continue
 
-    print(
-        result["document"],
-        "->",
-        round(result["score"], 4)
-    )
+    results = search_engine.search(query, top_k=5)
+
+    print("\nSemantic Search Results:")
+
+    if not results:
+        print("No results found.")
+    else:
+        for result in results:
+            print(
+                f"{result['document']} -> "
+                f"{result['score']:.4f}"
+            )
+
+    print("\n" + "-" * 50 + "\n")
