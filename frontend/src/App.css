@@ -453,3 +453,28 @@ footer {
   font-size: 14px;
   color: #6252b5;
 }
+
+
+.category-tag {
+  display: inline-block;
+  margin: 3px 0 10px;
+  padding: 5px 9px;
+  color: #555fc0;
+  background: #f0f1ff;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.result-preview {
+  margin: 0 0 14px !important;
+  padding: 12px 14px;
+  color: #626b7d !important;
+  background: #f8f9fc;
+  border-left: 3px solid #6068c5;
+  border-radius: 5px;
+  font-size: 13px !important;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

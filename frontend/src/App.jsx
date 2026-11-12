@@ -209,16 +209,28 @@ function App() {
                 {String(index + 1).padStart(2, "0")}
               </div>
 
+              
               <div className="result-content">
                 <h3>{result.document}</h3>
-                <p>
-                  Ranked using keyword relevance and semantic similarity.
+
+                <span className="category-tag">
+                  {result.category || "Uncategorized"}
+                </span>
+
+                <p className="result-preview">
+                  {result.preview || "No preview available."}
                 </p>
+
                 <div className="score-details">
-                  <span>TF-IDF {(result.tfidf_score * 100).toFixed(1)}%</span>
-                  <span>Semantic {(result.semantic_score * 100).toFixed(1)}%</span>
+                  <span>
+                    TF-IDF {(result.tfidf_score * 100).toFixed(1)}%
+                  </span>
+                  <span>
+                    Semantic {(result.semantic_score * 100).toFixed(1)}%
+                  </span>
                 </div>
               </div>
+
 
               <div className="score">
                 <strong>{(result.score * 100).toFixed(1)}%</strong>
