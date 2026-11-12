@@ -590,3 +590,215 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* NLP Pipeline Section */
+
+.nlp-section {
+  max-width: 1100px;
+  margin: 90px auto;
+  padding: 0 24px;
+}
+
+.nlp-heading {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.nlp-heading h2 {
+  font-size: 30px;
+  margin: 12px 0;
+}
+
+.nlp-heading > p:last-child {
+  color: #777;
+  max-width: 650px;
+  margin: 12px auto;
+  line-height: 1.7;
+}
+
+.pipeline-block {
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.pipeline-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 25px;
+}
+
+.pipeline-title h3,
+.pipeline-output h3 {
+  margin: 0 0 6px;
+}
+
+.pipeline-title p,
+.pipeline-output p {
+  color: #777;
+  font-size: 13px;
+  margin: 0;
+}
+
+.pipeline-number,
+.step-number {
+  background: #e9e7ff;
+  color: #5546b9;
+  padding: 10px 13px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.preprocessing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.preprocessing-card {
+  background: #f8f9fc;
+  border: 1px solid #e8eaf0;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.step-number {
+  display: inline-block;
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+
+.preprocessing-card h4 {
+  margin: 0 0 10px;
+}
+
+.preprocessing-card p,
+.pipeline-branch p,
+.hybrid-block p {
+  color: #737783;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.step-example {
+  background: #eeefff;
+  color: #5144a0;
+  border-radius: 8px;
+  padding: 11px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  margin-top: 15px;
+}
+
+.preprocessing-note {
+  margin-top: 20px;
+  padding: 14px;
+  background: #f3f5f9;
+  border-radius: 9px;
+  color: #626979;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.pipeline-branches {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-bottom: 28px;
+}
+
+.pipeline-branch {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 26px;
+}
+
+.branch-label {
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #7162c5;
+}
+
+.pipeline-branch h3,
+.hybrid-block h3 {
+  margin: 15px 0 10px;
+}
+
+.technique-tag {
+  display: inline-block;
+  background: #eeefff;
+  color: #5546b9;
+  padding: 8px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.branch-result {
+  border-top: 1px solid #e5e7eb;
+  margin-top: 20px;
+  padding-top: 16px;
+  color: #555;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.hybrid-block {
+  background: #f6f4ff;
+  border: 1px solid #e3defd;
+  border-radius: 14px;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.formula {
+  background: white;
+  display: inline-block;
+  padding: 18px 24px;
+  margin: 15px 0;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #5144a0;
+}
+
+.formula-note {
+  font-size: 12px !important;
+}
+
+.pipeline-output {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid #d9eadf;
+  background: #f2faf5;
+  border-radius: 14px;
+  padding: 25px;
+}
+
+@media (max-width: 750px) {
+  .preprocessing-grid,
+  .pipeline-branches {
+    grid-template-columns: 1fr;
+  }
+
+  .nlp-heading h2 {
+    font-size: 24px;
+  }
+
+  .pipeline-block,
+  .pipeline-branch,
+  .hybrid-block {
+    padding: 20px;
+  }
+
+  .formula {
+    font-size: 14px;
+    padding: 14px;
+  }
+}
