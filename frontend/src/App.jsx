@@ -2,6 +2,27 @@
 import { useState } from "react";
 import "./App.css";
 
+const evaluationResults = [
+  {
+    method: "TF-IDF",
+    precision: 0.2550,
+    recall: 0.0128,
+    mrr: 0.4333,
+  },
+  {
+    method: "Semantic Search",
+    precision: 0.4950,
+    recall: 0.0248,
+    mrr: 0.6933,
+  },
+  {
+    method: "Hybrid Search",
+    precision: 0.5300,
+    recall: 0.0265,
+    mrr: 0.6842,
+  },
+];
+
 function App() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
@@ -46,17 +67,17 @@ function App() {
       setResults(data.results || []);
     } catch (err) {
       setError(
-        "Could not connect to the search API. Make sure your FastAPI backend is running."
+        err.message || "Could not connect to the search API."
       );
     } finally {
       setLoading(false);
     }
   }
 
-  async function handleUpload(event){
+  async function handleUpload(event) {
     event.preventDefault();
 
-    if(!selectedFile){
+    if (!selectedFile) {
       setUploadMessage("Please select a file first.");
       return;
     }
@@ -75,7 +96,7 @@ function App() {
 
       const data = await response.json();
 
-      if(!response.ok) {
+      if (!response.ok) {
         throw new Error(data.detail || "Upload failed.");
       }
 
@@ -91,31 +112,39 @@ function App() {
 
   return (
     <main className="app">
+      {/* Header */}
       <header className="topbar">
         <a className="brand" href="/">
           <span className="brand-icon">S</span>
           <span>Semantic Search</span>
         </a>
+
         <span className="status">
           <span className="status-dot" />
           AI Search Engine
         </span>
       </header>
 
+      {/* Hero and Search */}
       <section className="hero">
         <p className="eyebrow">INTELLIGENT DOCUMENT DISCOVERY</p>
+
         <h1>
           Find the meaning.
           <br />
           <span>Not just the keywords.</span>
         </h1>
+
         <p className="subtitle">
           Search your documents using keyword matching and semantic
           understanding, powered by your hybrid search engine.
         </p>
 
         <form className="search-form" onSubmit={handleSearch}>
-          <span className="search-icon" aria-hidden="true">⌕</span>
+          <span className="search-icon" aria-hidden="true">
+            ⌕
+          </span>
+
           <input
             type="text"
             value={query}
@@ -123,61 +152,80 @@ function App() {
             placeholder="Try “artificial intelligence”"
             aria-label="Search documents"
           />
+
           <button type="submit" disabled={loading}>
             {loading ? "Searching..." : "Search"}
           </button>
         </form>
 
         <p className="hint">
-          Try: <button onClick={() => setQuery("machine learning")}>machine learning</button>
+          Try:
+          <button
+            type="button"
+            onClick={() => setQuery("machine learning")}
+          >
+            machine learning
+          </button>
+
           <span>·</span>
-          <button onClick={() => setQuery("natural language processing")}>natural language processing</button>
+
+          <button
+            type="button"
+            onClick={() => setQuery("natural language processing")}
+          >
+            natural language processing
+          </button>
         </p>
       </section>
 
-      <section className = "upload-section">
-        <div className = "upload-heading">
+      {/* Document Upload */}
+      <section className="upload-section">
+        <div className="upload-heading">
           <div>
-            <p className = "eyebrow">EXPAND YOUR SEARCH</p>
+            <p className="eyebrow">EXPAND YOUR SEARCH</p>
             <h2>Upload your documents</h2>
             <p>Bring your own knowledge into the search engine.</p>
           </div>
         </div>
 
-        <form className = "upload-form" onSubmit={handleUpload}>
+        <form className="upload-form" onSubmit={handleUpload}>
           <input
-            type = "file"
-            accept = ".txt, .pdf"
-            onChange = {(event)=> {
+            type="file"
+            accept=".txt,.pdf"
+            onChange={(event) => {
               setSelectedFile(event.target.files[0] || null);
               setUploadMessage("");
             }}
           />
 
-          <button type = "submit" disabled={uploading}>
+          <button type="submit" disabled={uploading}>
             {uploading ? "Uploading..." : "Upload document"}
           </button>
         </form>
 
         {selectedFile && (
-            <p className = "upload-info">
-              Selected: {selectedFile.name}
-            </p>
+          <p className="upload-info">
+            Selected: {selectedFile.name}
+          </p>
         )}
 
         {uploadMessage && (
-          <p className = "upload-message">
+          <p className="upload-message">
             {uploadMessage}
           </p>
         )}
       </section>
 
+      {/* Search Results */}
       <section className="results-section">
         <div className="results-heading">
           <div>
             <p className="eyebrow">YOUR DOCUMENTS</p>
-            <h2>{loading ? "Searching documents..." : "Search results"}</h2>
+            <h2>
+              {loading ? "Searching documents..." : "Search results"}
+            </h2>
           </div>
+
           {searched && !loading && !error && (
             <span className="result-count">
               {results.length} result{results.length !== 1 ? "s" : ""}
@@ -191,7 +239,9 @@ function App() {
           <div className="empty-state">
             <div className="empty-symbol">⌕</div>
             <h3>Your next discovery starts here</h3>
-            <p>Enter a question or topic above to find relevant documents.</p>
+            <p>
+              Enter a question or topic above to find relevant documents.
+            </p>
           </div>
         )}
 
@@ -209,7 +259,6 @@ function App() {
                 {String(index + 1).padStart(2, "0")}
               </div>
 
-              
               <div className="result-content">
                 <h3>{result.document}</h3>
 
@@ -223,17 +272,21 @@ function App() {
 
                 <div className="score-details">
                   <span>
-                    TF-IDF {(result.tfidf_score * 100).toFixed(1)}%
+                    TF-IDF{" "}
+                    {(Number(result.tfidf_score || 0) * 100).toFixed(1)}%
                   </span>
+
                   <span>
-                    Semantic {(result.semantic_score * 100).toFixed(1)}%
+                    Semantic{" "}
+                    {(Number(result.semantic_score || 0) * 100).toFixed(1)}%
                   </span>
                 </div>
               </div>
 
-
               <div className="score">
-                <strong>{(result.score * 100).toFixed(1)}%</strong>
+                <strong>
+                  {(Number(result.score || 0) * 100).toFixed(1)}%
+                </strong>
                 <span>Relevance</span>
               </div>
             </article>
@@ -241,6 +294,79 @@ function App() {
         </div>
       </section>
 
+      {/* NLP Evaluation Dashboard */}
+      <section className="evaluation-section">
+        <div className="evaluation-heading">
+          <p className="eyebrow">PERFORMANCE ANALYSIS</p>
+
+          <h2>Search Algorithm Evaluation</h2>
+
+          <p>
+            Comparing keyword-based, semantic and hybrid retrieval
+            using 40 held-out test queries.
+          </p>
+        </div>
+
+        <div className="evaluation-cards">
+          {evaluationResults.map((item) => (
+            <article className="evaluation-card" key={item.method}>
+              <h3>{item.method}</h3>
+
+              <div className="metric">
+                <span>Precision@5</span>
+                <strong>
+                  {(item.precision * 100).toFixed(2)}%
+                </strong>
+
+                <div className="metric-bar">
+                  <div
+                    style={{
+                      width: `${item.precision * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="metric">
+                <span>Recall@5</span>
+                <strong>
+                  {(item.recall * 100).toFixed(2)}%
+                </strong>
+
+                <div className="metric-bar">
+                  <div
+                    style={{
+                      width: `${item.recall * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="metric">
+                <span>Mean Reciprocal Rank (MRR)</span>
+                <strong>{item.mrr.toFixed(4)}</strong>
+
+                <div className="metric-bar">
+                  <div
+                    style={{
+                      width: `${item.mrr * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <p className="evaluation-note">
+          Evaluation uses category-based relevance judgments on
+          40 held-out queries from the 20 Newsgroups dataset.
+          These are topic-level relevance measurements, not
+          human-judged semantic relevance.
+        </p>
+      </section>
+
+      {/* Footer */}
       <footer>
         <span>AI Semantic Search Engine</span>
         <span>TF-IDF + Sentence Transformers</span>

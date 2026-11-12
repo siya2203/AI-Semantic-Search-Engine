@@ -478,3 +478,115 @@ footer {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+
+/* Document preview */
+
+.category-tag {
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 5px 9px;
+  color: #555fc0;
+  background: #f0f1ff;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.result-preview {
+  margin: 0 0 13px;
+  color: #626b7e;
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* NLP Evaluation Dashboard */
+
+.evaluation-section {
+  margin: 0 auto 55px;
+  padding: 29px;
+  background: white;
+  border: 1px solid #e8eaf1;
+  border-radius: 18px;
+}
+
+.evaluation-heading {
+  margin-bottom: 25px;
+}
+
+.evaluation-heading h2 {
+  margin: 8px 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 24px;
+}
+
+.evaluation-heading > p:last-child {
+  color: #82899a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.evaluation-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.evaluation-card {
+  padding: 18px;
+  background: #fafaff;
+  border: 1px solid #eaecf3;
+  border-radius: 12px;
+}
+
+.evaluation-card h3 {
+  margin: 0 0 20px;
+  font-family: "Manrope", sans-serif;
+  font-size: 15px;
+}
+
+.metric {
+  margin-bottom: 19px;
+}
+
+.metric span {
+  display: block;
+  color: #777f92;
+  font-size: 11px;
+}
+
+.metric strong {
+  display: block;
+  margin: 5px 0 8px;
+  color: #555fc0;
+  font-size: 19px;
+}
+
+.metric-bar {
+  height: 7px;
+  overflow: hidden;
+  background: #e9eaf5;
+  border-radius: 10px;
+}
+
+.metric-bar div {
+  height: 100%;
+  background: #6068c5;
+  border-radius: 10px;
+}
+
+.evaluation-note {
+  margin: 15px 0 0;
+  color: #82899a;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+@media (max-width: 750px) {
+  .evaluation-cards {
+    grid-template-columns: 1fr;
+  }
+}
