@@ -1,3 +1,5 @@
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 
 import { useState } from "react";
 import "./App.css";
@@ -53,7 +55,7 @@ function App() {
     setResults([]);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/search", {
+      const response = await fetch(`${API_BASE_URL}/search`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -91,7 +93,7 @@ function App() {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const response = await fetch("http://127.0.0.1:8000/upload", {
+      const response = await fetch(`${API_BASE_URL}/upload`, {
         method: "POST",
         body: formData,
       });
