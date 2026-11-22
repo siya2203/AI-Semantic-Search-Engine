@@ -8,3 +8,11 @@ data/processed/
 # Downloaded datasets
 data/dataset/
 data/evaluation/
+# Generated browser search dataset
+frontend/public/data/
+
+# Hugging Face deployment build files copied to project root
+/assets/
+/index.html
+/favicon.svg
+/icons.svg
